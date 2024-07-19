@@ -132,12 +132,11 @@ parse_cores(l2p_port_t *port, const char *cores, int mode)
     DBG_PRINT("lcore: %d to %d\n", l, h);
     do {
         l2p_lport_t *lport;
-        int32_t sid = rte_eth_dev_socket_id(port->pid);
 
         lport = info->lports[l];
         if (lport == NULL) {
             snprintf(name, sizeof(name), "lport-%u:%u", l, port->pid);
-            lport = rte_zmalloc_socket(name, sizeof(l2p_lport_t), RTE_CACHE_LINE_SIZE, sid);
+            lport = rte_zmalloc(name, sizeof(l2p_lport_t), RTE_CACHE_LINE_SIZE);
             if (!lport)
                 ERR_RET("Failed to allocate memory for lport info\n");
             lport->lid = l;

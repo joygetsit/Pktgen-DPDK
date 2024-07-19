@@ -153,7 +153,7 @@ pktgen_config_ports(void)
         pinfo = l2p_get_port_pinfo(pid);
         if (pinfo == NULL) {
             /* Allocate each port_info_t structure on the correct NUMA node for the port */
-            pinfo = rte_zmalloc_socket(NULL, sizeof(port_info_t), RTE_CACHE_LINE_SIZE, sid);
+            pinfo = pg_zmalloc_socket(NULL, sizeof(port_info_t), RTE_CACHE_LINE_SIZE, sid);
             if (!pinfo)
                 rte_exit(EXIT_FAILURE, "Cannot allocate memory for port_info_t\n");
 
@@ -162,8 +162,8 @@ pktgen_config_ports(void)
             pinfo->fill_pattern_type = ABC_FILL_PATTERN;
             snprintf(pinfo->user_pattern, sizeof(pinfo->user_pattern), "%s", "0123456789abcdef");
 
-            pinfo->seq_pkt = rte_zmalloc_socket(NULL, (sizeof(pkt_seq_t) * NUM_TOTAL_PKTS),
-                                                RTE_CACHE_LINE_SIZE, sid);
+            pinfo->seq_pkt = pg_zmalloc_socket(NULL, (sizeof(pkt_seq_t) * NUM_TOTAL_PKTS),
+                                               RTE_CACHE_LINE_SIZE, sid);
             if (pinfo->seq_pkt == NULL)
                 pktgen_log_panic("Unable to allocate %'ld pkt_seq_t headers",
                                  (long int)NUM_TOTAL_PKTS);
@@ -173,7 +173,7 @@ pktgen_config_ports(void)
                 pktsz = RTE_ETHER_MAX_JUMBO_FRAME_LEN;
 
             for (int i = 0; i < NUM_TOTAL_PKTS; i++) {
-                pinfo->seq_pkt[i].hdr = rte_zmalloc_socket(NULL, pktsz, RTE_CACHE_LINE_SIZE, sid);
+                pinfo->seq_pkt[i].hdr = pg_zmalloc_socket(NULL, pktsz, RTE_CACHE_LINE_SIZE, sid);
                 if (pinfo->seq_pkt[i].hdr == NULL)
                     pktgen_log_panic("Unable to allocate %ld pkt_seq_t buffer space", pktsz);
 

@@ -46,7 +46,7 @@ vec_create(const char *name, unsigned int n, uint16_t flags)
 
     vec_size = vec_calc_size(n);
 
-    vec = rte_zmalloc_socket(name, vec_size, RTE_CACHE_LINE_SIZE, rte_socket_id());
+    vec = rte_zmalloc(name, vec_size, RTE_CACHE_LINE_SIZE);
     if (vec) {
         vec->tlen  = n;
         vec->flags = flags;
